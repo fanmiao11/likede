@@ -139,13 +139,12 @@ export default {
       try {
         const res = await getimageCode(this.clientToken);
         // console.log(res);
-        this.pic = window.URL.createObjectURL(res.data);
+        this.pic = window.URL.createObjectURL(res);
       } catch (e) {
         console.log(e);
       }
     },
     async handleLogin() {
-      console.log("click登录");
       // this.$refs.loginForm.validate((a,b)=>{
       //   // a 验证是否通过   b未通过的验证字段
       //   console.log(a);
@@ -154,13 +153,14 @@ export default {
       try {
         await this.$refs.loginForm.validate();
         // 验证通过
-        this.$store.dispatch("user/login", {
+        await this.$store.dispatch("user/login", {
           "clientToken": this.clientToken,
           "code": this.loginForm.yanzhengma,
           "loginName": this.loginForm.username,
           "loginType": 0,
           "password": this.loginForm.password
           });
+          this.$router.push('/')
       } catch (e) {
         console.log(e);
       }

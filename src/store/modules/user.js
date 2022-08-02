@@ -1,15 +1,16 @@
 import { login, logout, getInfo } from '@/api'
+
+// 通过cookies存token
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import router from "@/router";
 
 
 const getDefaultState = () => {
   return {
-    // token: getToken(),
-    token:'',
-    name: '',
-    avatar: '',
-    clientToken:''
+    token: getToken(),
+    // name: '',
+    userId: '',
+    clientToken:'',
+    userInfo:'',
   }
 }
 
@@ -22,52 +23,42 @@ const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
   },
-  SET_NAME: (state, name) => {
-    state.name = name
+  SET_USERID:(state,userId) => {
+    state.userId = userId
   },
-  SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
+  SET_USERINFO: (state, payload) => {
+    state.userInfo = payload
   },
+  // SET_AVATAR: (state, avatar) => {
+  //   state.avatar = avatar
+  // },
 }
 
 const actions = {
   // user login
-  async login({ commit }, userInfo) {
-    try{
-      const {data} = await login(userInfo)
-      // console.log(res);
-      commit("SET_NAME",data.userName);
-      commit("SET_TOKEN",data.token);
-      // setToken(data.token)
-      router.push({
-         path: '/' 
-      });
-
-    }catch(e){
-
-    }
+  async login({ commit }, payload) {
+      const {token,userId} = await login(payload)
+      commit("SET_TOKEN",token);
+      commit('SET_USERID',userId)
+      setToken(token)
   },
 
   // get user info
-  // getInfo({ commit, state }) {
-  //   return new Promise((resolve, reject) => {
-  //     getInfo(state.token).then(response => {
-  //       const { data } = response
-
-  //       if (!data) {
-  //         return reject('Verification failed, please Login again.')
-  //       }
-
-  //       const { name, avatar } = data
-
-  //       commit('SET_NAME', name)
-  //       commit('SET_AVATAR', avatar)
-  //       resolve(data)
-  //     }).catch(error => {
-  //       reject(error)
-  //     })
-  //   })
-  // },
+  getInfo({ commit, state }) {
+    return new Promise((resolve, reject) => {
+      getInfo(state.userId).then(response => {
+        const res = response
+        // console.log('getinfo',res);
+        if (!res) {
+          return reject('Verification failed, please Login again.')
+        }
+        commit("SET_USERINFO", res);
+        resolve(res)
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
 
   // user logout
   // logout({ commit, state }) {
@@ -84,13 +75,13 @@ const actions = {
   // },
 
   // remove token
-//   resetToken({ commit }) {
-//     return new Promise(resolve => {
-//       removeToken() // must remove  token  first
-//       commit('RESET_STATE')
-//       resolve()
-//     })
-//   }
+  resetToken({ commit }) {
+    return new Promise(resolve => {
+      removeToken() // must remove  token  first
+      commit('RESET_STATE')
+      resolve()
+    })
+  }
 }
 
 export default {
