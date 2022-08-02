@@ -2,10 +2,12 @@
   <div :class="classObj" class="app-wrapper">
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
     <sidebar class="sidebar-container" />
-    <div class="main-container">
       <div :class="{'fixed-header':fixedHeader}">
+        <!-- 头部栏 -->
         <navbar />
       </div>
+    <div class="main-container">
+      <!-- 主体 -->
       <app-main />
     </div>
   </div>
@@ -36,7 +38,8 @@ export default {
     classObj() {
       return {
         hideSidebar: !this.sidebar.opened,
-        openSidebar: this.sidebar.opened,
+        // openSidebar: this.sidebar.opened,
+        openSidebar: true,
         withoutAnimation: this.sidebar.withoutAnimation,
         mobile: this.device === 'mobile'
       }
