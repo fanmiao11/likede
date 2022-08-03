@@ -1,5 +1,15 @@
 import Vue from "vue";
 import Router from "vue-router";
+import workorder from './modules/workorder'
+import strategy from "./modules/strategy"
+import pointlocation from "./modules/pointlocation"
+import personnel from "./modules/personnel"
+import orders from "./modules/orders"
+import goods from "./modules/goods"
+import device from './modules/device'
+import accountchecked from "./modules/accountchecked"
+
+
 
 Vue.use(Router);
 
@@ -53,7 +63,7 @@ export const constantRoutes = [
         path: "home",
         name: "Home",
         component: () => import("@/views/home/index"),
-        meta: { title: "帝可得", icon: "dashboard" },
+        meta: { title: "帝可得", icon: "shouye" },
       },
     ],
   },
@@ -63,11 +73,25 @@ export const constantRoutes = [
   { path: "*", redirect: "/404", hidden: true },
 ];
 
+// 动态路由
+
+export const asyncRoutes = [
+  workorder,
+  pointlocation,
+  device,
+  personnel,
+  goods,
+  strategy,
+  orders,
+  accountchecked
+];
+
 const createRouter = () =>
   new Router({
     // mode: 'history', // require service support
     scrollBehavior: () => ({ y: 0 }),
-    routes: constantRoutes,
+    // 合并静态路由和动态路由
+    routes: [...constantRoutes, ...asyncRoutes],
   });
 
 const router = createRouter();
