@@ -1,19 +1,19 @@
 <template>
-  <div class="navbar">
-    <hamburger
+  <div class="navbar" >
+    <!-- <hamburger
       :is-active="sidebar.opened"
       class="hamburger-container"
       @toggleClick="toggleSideBar"
-    />
+    /> -->
 
     <!-- <breadcrumb class="breadcrumb-container" /> -->
     <img class="logo-navbar" src="../../assets/img/logo-navbar.png" />
 
-    <div class="right-menu">
-      <div class="avatar-wrapper">
-        <img :src="userInfo.image" class="user-avatar" />
+    <div class="right-menu" >
+      <div class="avatar-wrapper" >
+        <img  :src="userInfo.image" class="user-avatar" v-imgError="defaultImg" />
         <span>欢迎您，{{ userInfo.userName }}</span>
-        <span>退出<i class="el-icon-caret-bottom" /></span>
+        <span @click="logout" class='logout'>退出<i class="el-icon-caret-bottom" /></span>
       </div>
     </div>
   </div>
@@ -25,6 +25,11 @@ import Breadcrumb from "@/components/Breadcrumb";
 import Hamburger from "@/components/Hamburger";
 
 export default {
+  data() {
+    return {
+      defaultImg: "http://liufusong.top/logo.jpeg",
+    };
+  },
   components: {
     Breadcrumb,
     Hamburger,
@@ -45,11 +50,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.logout{
+  cursor: pointer;
+}
 .navbar {
   height: 60px;
   overflow: hidden;
   position: relative;
-  background-image: url("~@/assets/img/background-navbar.png");
+  background: url("~@/assets/img/background-navbar.png") no-repeat;
+  background-size: cover;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   .logo-navbar {
     width: 88px;
@@ -81,13 +90,9 @@ export default {
     margin-right: 24px;
     color: #fff;
 
+
     &:focus {
       outline: none;
-    }
-
-    .avatar-wrapper {
-      display: flex;
-      justify-content: space-between;
     }
     // .right-menu-item {
     //   display: inline-block;
@@ -110,25 +115,25 @@ export default {
     // .avatar-container {
     //   margin-right: 30px;
 
-    //   .avatar-wrapper {
-    //     // margin-top: 5px;
-    //     position: relative;
+    .avatar-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .user-avatar {
+        cursor: pointer;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+      }
 
-    //     .user-avatar {
-    //       cursor: pointer;
-    //       width: 40px;
-    //       height: 40px;
-    //       border-radius: 10px;
-    //     }
-
-    //     .el-icon-caret-bottom {
-    //       cursor: pointer;
-    //       position: absolute;
-    //       right: -20px;
-    //       top: 25px;
-    //       font-size: 12px;
-    //     }
-    //   }
+      //     .el-icon-caret-bottom {
+      //       cursor: pointer;
+      //       position: absolute;
+      //       right: -20px;
+      //       top: 25px;
+      //       font-size: 12px;
+      //     }
+    }
     // }
   }
 }

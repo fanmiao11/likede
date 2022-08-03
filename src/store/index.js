@@ -18,11 +18,12 @@ const store = new Vuex.Store({
   getters,
   plugins:[createVuexPersisted({
     reducer(state){
-      return{
-        user:{
+      return {
+        user: {
           userInfo:state.user.userInfo
-        }
-      }
+          // userid: state.user.userId,
+        },
+      };
     }
   })]
 })

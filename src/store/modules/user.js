@@ -1,7 +1,7 @@
 import { login, getInfo } from '@/api'
 
 // 通过cookies存token
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken, setTokenTime } from "@/utils/auth";
 
 import { resetRouter } from '@/router'
 
@@ -43,6 +43,7 @@ const actions = {
       commit("SET_TOKEN",token);
       commit('SET_USERID',userId)
       setToken(token)
+      setTokenTime()
   },
 
   // get user info
@@ -64,7 +65,6 @@ const actions = {
 
   // user logout
   logout({ commit }) {
-
     removeToken() // must remove  token  first
     resetRouter()
     commit('RESET_STATE')
