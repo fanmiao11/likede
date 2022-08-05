@@ -9,8 +9,8 @@ import router from "@/router";
 function isTimeOut() {
   const currentTime = Date.now()
   const tokenTime = getTokenTime()
-  const timeout = 10 * 1000
-  console.log(currentTime,tokenTime);
+  const timeout = 3 * 60 * 60 * 1000
+  // console.log(currentTime,tokenTime);
   // console.log(currentTime,tokenTime);
   return currentTime-tokenTime > timeout
 }
@@ -26,7 +26,7 @@ const service = axios.create({
 service.interceptors.request.use(
   async (config)=>{
     // 当前请求的配置
-  console.log(getToken());
+  // console.log(getToken());
     if(store.state.user.token){
       if (isTimeOut()) {
         await store.dispatch("user/logout");

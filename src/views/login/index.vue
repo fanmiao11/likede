@@ -59,12 +59,14 @@
           placeholder="请输入验证码"
           name="yanzhengma"
           tabindex="3"
-          @keyup.enter="handleLogin"
+          @keyup.enter.native="handleEnter"
         />
         <img :src="pic" @click="getimageCode()" />
       </el-form-item>
 
       <el-button
+        ref="login"
+        id="login"
         :loading="loading"
         type="primary"
         style="width: 100%; margin-bottom: 30px"
@@ -108,7 +110,7 @@ export default {
       passwordType: "password", //判断密码框尾部图标
       redirect: undefined,
       pic: "",
-      clientToken:Math.floor(Math.random()*1024)
+      clientToken: Math.floor(Math.random() * 1024),
     };
   },
   // watch: {
@@ -144,23 +146,32 @@ export default {
         console.log(e);
       }
     },
+    handleEnter() {
+      // console.log(document.getElementById('login').className);
+      document.getElementById("login").className += " enter";
+      this.$refs.login.$el.click();
+      // document.getElementById('login').click()
+      // document.getElementById('login').style.border='2px'
+    },
     async handleLogin() {
       // this.$refs.loginForm.validate((a,b)=>{
       //   // a 验证是否通过   b未通过的验证字段
       //   console.log(a);
       //   console.log(b);
       // })
+
       try {
         await this.$refs.loginForm.validate();
         // 验证通过
+        // document.getElementById("login").className = document.getElementById("login").className.replace(/enter/g, "");
         await this.$store.dispatch("user/login", {
-          "clientToken": this.clientToken,
-          "code": this.loginForm.yanzhengma,
-          "loginName": this.loginForm.username,
-          "loginType": 0,
-          "password": this.loginForm.password
-          });
-          this.$router.push('/')
+          clientToken: this.clientToken,
+          code: this.loginForm.yanzhengma,
+          loginName: this.loginForm.username,
+          loginType: 0,
+          password: this.loginForm.password,
+        });
+        this.$router.push("/");
       } catch (e) {
         console.log(e);
       }
@@ -303,6 +314,11 @@ $light_gray: #eee;
       width: 100%;
       height: 100%;
     }
+  }
+  // 按钮点击放大
+  ::v-deep .el-button:active,
+  .enter {
+    border: unset;
   }
 }
 </style>

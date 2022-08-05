@@ -58,3 +58,12 @@ export default {
   }
 }
 </script>
+<style>
+.el-submenu .el-menu-item {
+  color: #999 !important;
+  padding: 0 50px !important;
+}
+.el-submenu .el-menu-item.is-active{
+  color: #5f84ff !important;
+}
+</style>

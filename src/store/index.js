@@ -20,8 +20,8 @@ const store = new Vuex.Store({
     reducer(state){
       return {
         user: {
-          userInfo:state.user.userInfo
-          // userid: state.user.userId,
+          // userInfo:state.user.userInfo
+          userId: state.user.userId,
         },
       };
     }

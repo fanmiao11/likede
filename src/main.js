@@ -44,6 +44,9 @@ Vue.directive("imgError", {
   },
 });
 
+import definedUI from "@/components/Button"
+Vue.use(definedUI)
+
 new Vue({
   el: "#app",
   router,
