@@ -9,7 +9,11 @@
         </div>
         <!-- 表格 -->
         <div class="table">
-          <el-table highlight-current-row :data="tableData.currentPageRecords" style="width: 100%">
+          <el-table
+            highlight-current-row
+            :data="tableData.currentPageRecords"
+            style="width: 100%"
+          >
             <el-table-column type="index" label="序号" width="">
             </el-table-column>
             <el-table-column prop="taskCode" label="工单编号" width="">
@@ -60,8 +64,16 @@
                 }}/{{ tableData.totalPage }}页
               </div>
               <div class="button">
-                <el-button @click="$emit('prePage',tableData.pageIndex)" :disabled="predisabled">上一页</el-button>
-                <el-button @click="$emit('nextPage',tableData.pageIndex)" :disabled="nextdisabled">下一页</el-button>
+                <el-button
+                  @click="$emit('prePage', tableData.pageIndex)"
+                  :disabled="tableData.pageIndex === '1'"
+                  >上一页</el-button
+                >
+                <el-button
+                  @click="$emit('nextPage', tableData.pageIndex)"
+                  :disabled="tableData.pageIndex === tableData.totalPage"
+                  >下一页</el-button
+                >
               </div>
             </slot>
           </el-pagination>
@@ -101,23 +113,22 @@ export default {
       return cellValue.replace(/T/g, " ").replace(/-/g, ".");
     },
   },
-  computed:{
-    predisabled(){
-        if(this.tableData.pageIndex==='1'){
-            return true
-        }else{
-            return false
-        }
-    },
-    nextdisabled(){
-        if(this.tableData.pageIndex===this.tableData.totalPage){
-            return true
-        }else{
-            return false
-        }
-    }
-
-  }
+  computed: {
+    // predisabled(){
+    //     if(this.tableData.pageIndex==='1'){
+    //         return true
+    //     }else{
+    //         return false
+    //     }
+    // },
+    // nextdisabled(){
+    //     if(this.tableData.pageIndex===this.tableData.totalPage){
+    //         return true
+    //     }else{
+    //         return false
+    //     }
+    // }
+  },
 };
 </script>
 
